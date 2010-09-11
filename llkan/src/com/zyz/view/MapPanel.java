@@ -3,6 +3,8 @@ package com.zyz.view;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -49,6 +51,7 @@ public class MapPanel extends JPanel {
 				int index = row * Setting.COLUMN + col;
                 if (map.getMap()[row][col] != 0) {
                 	String name = "";
+                	Icon icon = null;
                 	switch (map.getMap()[row][col] - 1) {
                 		case 0:
                 			name = "³¬¸ç";
@@ -98,7 +101,10 @@ public class MapPanel extends JPanel {
                 		default:
                 			name = "";
                 	}
-				    add(dots[index] = new JButton(name));
+                	icon = new ImageIcon(System.getProperty("user.dir") + "/images/" + (map.getMap()[row][col] - 1) + ".JPG");
+        			
+				    add(dots[index] = new JButton());
+				    dots[index].setIcon(icon);
 				    if ("".equals(name)) {
 				    	dots[index].setVisible(false);
 				    }

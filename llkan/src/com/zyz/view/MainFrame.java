@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
 	private MapPanel map = new MapPanel();
 	
 	public MainFrame() {
+		this.setTitle("人渣连连看");
 		this.setSize(width, height);
 		
 		this.setLayout(new BorderLayout());
