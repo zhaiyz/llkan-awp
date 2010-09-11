@@ -28,7 +28,7 @@ public class Map {
 	/**
 	 * ÔªËØ¸öÊı
 	 */
-	public int elements = 10;
+	public int elements = 16;
 
 	public int[][] getMap() {
 		return map;
