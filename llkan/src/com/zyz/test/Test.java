@@ -4,6 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.zyz.model.Map;
 import com.zyz.view.MapUI;
 
 public class Test extends JFrame{
@@ -14,10 +15,15 @@ public class Test extends JFrame{
 
 		this.setTitle(title); // …Ë÷√±ÍÃ‚
 
-		this.setSize(new Dimension(600, 600));
+		this.setSize(new Dimension(520, 520));
 		
-		MapUI map = new MapUI();
-		this.add(map);
+		Map map = new Map();
+		map.init();
+		
+		MapUI ui = new MapUI(map);
+		
+
+		this.add(ui);
 	}
 
 	public static void main(String args[]) {
