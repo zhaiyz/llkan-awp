@@ -18,8 +18,8 @@ public class Match {
 	 * @param b
 	 * @return
 	 */
-	public static boolean horizonMatch(Map map, Point a, Point b) {
-
+	public static boolean horizonMatch(int[][] map, Point a, Point b) {
+		
 		// 如果点击的是同一个图案，直接返回false
 		if (a.x == b.x && a.y == b.y)
 			return false;
@@ -32,7 +32,7 @@ public class Match {
 
 		// 只要一个不是0，直接返回false
 		for (int x = x_start + 1; x < x_end; x++)
-			if (map.getMap()[a.x][x] != 0) {
+			if (map[a.x][x] != 0) {
 				return false;
 			}
 		return true;
@@ -45,7 +45,7 @@ public class Match {
 	 * @param b
 	 * @return
 	 */
-	public static boolean verticalMatch(Map map, Point a, Point b) {
+	public static boolean verticalMatch(int[][] map, Point a, Point b) {
 
 		// 如果点击的是同一个图案，直接返回false
 		if (a.x == b.x && a.y == b.y)
@@ -59,7 +59,7 @@ public class Match {
 
 		// 只要一个不是0，直接返回false
 		for (int y = y_start + 1; y < y_end; y++)
-			if (map.getMap()[y][a.y] != -1)
+			if (map[y][a.y] != 0)
 				return false;
 		return true;
 	}
@@ -71,7 +71,7 @@ public class Match {
 	 * @param b
 	 * @return
 	 */
-	public static boolean oneCorner(Map map, Point a, Point b) {
+	public static boolean oneCorner(int[][] map, Point a, Point b) {
 		Point c, d;
 
 		boolean isMatch;
@@ -81,7 +81,7 @@ public class Match {
 		d = new Point(b.x, a.y);
 
 		// C 点上必须没有障碍
-		if (map.getMap()[c.x][c.y] == 0) {
+		if (map[c.x][c.y] == 0) {
 
 			isMatch = horizonMatch(map, a, c) && verticalMatch(map, b, c);
 
@@ -94,7 +94,7 @@ public class Match {
 		}
 
 		// D 点上必须没有障碍
-		if (map.getMap()[d.x][d.y] == 0) {
+		if (map[d.x][d.y] == 0) {
 
 			isMatch = verticalMatch(map, a, d) && horizonMatch(map, b, d);
 
@@ -112,7 +112,7 @@ public class Match {
 	 * @param b
 	 * @return
 	 */
-	public static boolean twoCorner(Map map, Point a, Point b) {
+	public static boolean twoCorner(int[][] map, Point a, Point b) {
 		LinkedList<Line> ll = new LinkedList<Line>();
 		ll = Line.scan(map, a, b);
 		if (ll.isEmpty())
@@ -141,9 +141,9 @@ public class Match {
 	 * @param b
 	 * @return
 	 */
-	public static boolean checkLink(Map map, Point a, Point b) {
+	public static boolean checkLink(int[][] map, Point a, Point b) {
 		// 如果图案不同，直接为false
-		if (map.getMap()[a.x][a.y] != map.getMap()[b.x][b.y])
+		if (map[a.x][a.y] != map[b.x][b.y])
 			return false;
 		if (a.x == b.x && Match.horizonMatch(map, a, b))
 			return true;

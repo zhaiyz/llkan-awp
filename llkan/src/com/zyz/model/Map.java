@@ -13,7 +13,7 @@ public class Map {
 	/**
 	 * 地图
 	 */
-	private int[][] map = new int[Setting.ROW][Setting.COLUMN];
+	public static int[][] map = new int[Setting.ROW][Setting.COLUMN];
 
 	/**
 	 * 辅助的一维数组
@@ -28,15 +28,7 @@ public class Map {
 	/**
 	 * 元素个数
 	 */
-	public int elements = 16;
-
-	public int[][] getMap() {
-		return map;
-	}
-
-	public void setMap(int[][] map) {
-		this.map = map;
-	}
+	public int elements = 15;
 
 	public int[] getArray() {
 		return array;

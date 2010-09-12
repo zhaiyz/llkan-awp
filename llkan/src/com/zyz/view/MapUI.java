@@ -37,9 +37,9 @@ public class MapUI extends JPanel{
 			for (int col = 0; col < Setting.COLUMN; col++) {
 
 				int index = row * Setting.COLUMN + col;
-                if (map.getMap()[row][col] != 0) {
+                if (Map.map[row][col] != 0) {
                 	String name = "";
-                	switch (map.getMap()[row][col]) {
+                	switch (Map.map[row][col]) {
                 		case 0:
                 			name = "³¬¸ç";
                 			break;
@@ -83,7 +83,7 @@ public class MapUI extends JPanel{
                 			name = "Ñ§Î°";
                 			break;
                 		case 15:
-                			name = "ÀîºÆ";
+                			name = "Àîð©";
                 			break;
                 		default:
                 			name = "";
