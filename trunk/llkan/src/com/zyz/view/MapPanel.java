@@ -2,6 +2,9 @@ package com.zyz.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -9,15 +12,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.zyz.model.Map;
+import com.zyz.model.Match;
 import com.zyz.model.Setting;
 
-public class MapPanel extends JPanel {
+public class MapPanel extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 3466590739406451337L;
 	
 	private int width = 400;
 	
 	private int height = 300;
+	
+	private Point pre;
 	
 	JButton[] dots = new JButton[Setting.ROW * Setting.COLUMN];
 	
@@ -49,10 +55,10 @@ public class MapPanel extends JPanel {
 			for (int col = 0; col < Setting.COLUMN; col++) {
 
 				int index = row * Setting.COLUMN + col;
-                if (map.getMap()[row][col] != 0) {
+                if (Map.map[row][col] != 0) {
                 	String name = "";
                 	Icon icon = null;
-                	switch (map.getMap()[row][col] - 1) {
+                	switch (Map.map[row][col] - 1) {
                 		case 0:
                 			name = "超哥";
                 			break;
@@ -101,15 +107,20 @@ public class MapPanel extends JPanel {
                 		default:
                 			name = "";
                 	}
-                	icon = new ImageIcon(System.getProperty("user.dir") + "/images/" + (map.getMap()[row][col] - 1) + ".JPG");
-        			
-				    add(dots[index] = new JButton());
-				    dots[index].setIcon(icon);
+                	
+                	add(dots[index] = new JButton());
+					
 				    if ("".equals(name)) {
 				    	dots[index].setVisible(false);
+				    } else {
+				    	icon = new ImageIcon(getClass().getResource("images/" + (Map.map[row][col] - 1) + ".JPG"));
+	        			
+					    dots[index].setIcon(icon);
+					    dots[index].addActionListener(this);
+					    dots[index].setActionCommand("" + index);
 				    }
                 } else {
-                	add(dots[index] = new JButton(""));
+                	add(dots[index] = new JButton());
                 	dots[index].setVisible(false);
                 }
 
@@ -117,4 +128,37 @@ public class MapPanel extends JPanel {
 		}
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton button = (JButton) e.getSource(); 
+
+		int offset = Integer.parseInt(button.getActionCommand()); 
+
+		int row, col; 
+
+		row = Math.round(offset / Setting.COLUMN); 
+
+		col = offset - row * Setting.COLUMN;
+		
+		Point cur = new Point(row, col);
+		
+		if (pre == null) {
+			pre = cur;
+		} else {
+			if (Match.checkLink(Map.map, cur, pre)) {
+				System.out.println("-------------可以连接-------------");
+				System.out.println("pre[" + pre.x + "][" + pre.y + "]=" + Map.map[pre.x][pre.y]);
+				System.out.println("cur[" + cur.x + "][" + cur.y + "]=" + Map.map[cur.x][cur.y]);
+				dots[offset].setVisible(false);
+				dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
+				Map.map[row][col] = 0;
+				Map.map[pre.x][pre.y] = 0;
+			} else {
+				System.out.println("-------------不能连接-------------");
+				System.out.println("pre[" + pre.x + "][" + pre.y + "]=" + Map.map[pre.x][pre.y]);
+				System.out.println("cur[" + cur.x + "][" + cur.y + "]=" + Map.map[cur.x][cur.y]);
+			}
+			pre = null;
+		}
+	}
 }
