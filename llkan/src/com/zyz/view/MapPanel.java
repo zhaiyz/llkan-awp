@@ -1,21 +1,24 @@
 package com.zyz.view;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import com.zyz.model.Map;
 import com.zyz.model.Match;
 import com.zyz.model.Setting;
 
-public class MapPanel extends JPanel implements ActionListener{
+public class MapPanel extends JPanel implements MouseListener{
 
 	private static final long serialVersionUID = 3466590739406451337L;
 	
@@ -25,11 +28,17 @@ public class MapPanel extends JPanel implements ActionListener{
 	
 	private Point pre;
 	
+	boolean flag = true;
+	
+	private Border selectedBorder = BorderFactory.createLineBorder(Color.blue, 4);
+	
+	private Border overBorder = BorderFactory.createLineBorder(Color.yellow, 4);
+	
 	JButton[] dots = new JButton[Setting.ROW * Setting.COLUMN];
 	
 	public MapPanel() {
 		this.setSize(width, height);
-		this.setBackground(Color.RED);
+//		this.setBackground(Color.RED);
 		
 		 // 设计布局
 		GridLayout gridLayout = new GridLayout();
@@ -116,7 +125,7 @@ public class MapPanel extends JPanel implements ActionListener{
 				    	icon = new ImageIcon(getClass().getResource("images/" + (Map.map[row][col] - 1) + ".JPG"));
 	        			
 					    dots[index].setIcon(icon);
-					    dots[index].addActionListener(this);
+					    dots[index].addMouseListener(this);
 					    dots[index].setActionCommand("" + index);
 				    }
                 } else {
@@ -128,8 +137,9 @@ public class MapPanel extends JPanel implements ActionListener{
 		}
 	}
 
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		JButton button = (JButton) e.getSource(); 
 
 		int offset = Integer.parseInt(button.getActionCommand()); 
@@ -144,6 +154,7 @@ public class MapPanel extends JPanel implements ActionListener{
 		
 		if (pre == null) {
 			pre = cur;
+			dots[pre.x * Setting.COLUMN + pre.y].setBorder(selectedBorder);
 		} else {
 			if (Match.checkLink(Map.map, cur, pre)) {
 				System.out.println("-------------可以连接-------------");
@@ -158,7 +169,45 @@ public class MapPanel extends JPanel implements ActionListener{
 				System.out.println("pre[" + pre.x + "][" + pre.y + "]=" + Map.map[pre.x][pre.y]);
 				System.out.println("cur[" + cur.x + "][" + cur.y + "]=" + Map.map[cur.x][cur.y]);
 			}
+			dots[pre.x * Setting.COLUMN + pre.y].setBorder(null);
 			pre = null;
 		}
 	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+        JButton button = (JButton) e.getSource();
+        
+        int offset = Integer.parseInt(button.getActionCommand()); 
+        if (pre == null || (pre.x * Setting.COLUMN + pre.y) != offset)
+            dots[offset].setBorder(overBorder);        
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		JButton button = (JButton) e.getSource();
+
+		int offset = Integer.parseInt(button.getActionCommand());
+		if (pre == null || (pre.x * Setting.COLUMN + pre.y) != offset)
+		    dots[offset].setBorder(null);  
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void paintComponent(Graphics g) {
+		  super.paintComponent(g);
+		  ImageIcon image = new ImageIcon(getClass().getResource("images/" + "java.jpg"));
+		  image.paintIcon(this, g, 0, 0);
+    }
 }
