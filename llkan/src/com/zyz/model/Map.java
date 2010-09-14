@@ -18,7 +18,7 @@ public class Map {
 	/**
 	 * 辅助的一维数组
 	 */
-	private int[] array = new int[Setting.ROW * Setting.COLUMN];
+	private static int[] array = new int[Setting.ROW * Setting.COLUMN];
 
 	/**
 	 * 最大元素数，不能超过map总元素的四分之一
@@ -29,14 +29,6 @@ public class Map {
 	 * 元素个数
 	 */
 	public int elements = 15;
-
-	public int[] getArray() {
-		return array;
-	}
-
-	public void setArray(int[] array) {
-		this.array = array;
-	}
 
 	public int getMaxElement() {
 		return maxElement;
@@ -86,7 +78,7 @@ public class Map {
 	 * @param array
 	 * @return
 	 */
-	public int[] random(int[] array) {
+	public static int[] random(int[] array) {
 
 		Random random = new Random();
 
@@ -111,12 +103,39 @@ public class Map {
 	 * @param array
 	 * @return
 	 */
-	public int[][] initMap(int[] array) {
+	public static int[][] initMap(int[] array) {
 		for (int i = 0; i < Setting.ROW; i++) {
 			for (int j = 0; j < Setting.COLUMN; j++) {
 				map[i][j] = array[i * Setting.COLUMN + j];
 			}
 		}
 		return map;
+	}
+	
+	/**
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public static int[] random(int[][] map) {
+		for (int i=0; i<Setting.ROW * Setting.COLUMN; i++) {
+			array[i] = 0;
+		}
+		for (int i=0; i<Setting.ROW; i++) {
+			for (int j=0; j<Setting.COLUMN; j++) {
+				array[i * Setting.COLUMN + j] = map[i][j];
+				map[i][j] = 0;
+			}
+		}
+		
+		random(array);
+		
+		for (int i = 0; i < Setting.ROW; i++) {
+			for (int j = 0; j < Setting.COLUMN; j++) {
+				map[i][j] = array[i * Setting.COLUMN + j];
+			}
+		}
+		
+		return array;
 	}
 }

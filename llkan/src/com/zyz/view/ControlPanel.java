@@ -2,7 +2,6 @@ package com.zyz.view;
 
 import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class ControlPanel extends JPanel {
@@ -13,16 +12,9 @@ public class ControlPanel extends JPanel {
 	
 	private int height = 100;
 	
-    private JButton start = new JButton("¿ªÊ¼");
-	
-	private JButton refresh = new JButton("Ë¢ÐÂ");
-	
 	public ControlPanel() {
 		this.setSize(width, height);
 		this.setBackground(Color.BLUE);
-		
-		this.add(start);
-		this.add(refresh);
 	}
 
 }
