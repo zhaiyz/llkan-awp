@@ -19,9 +19,11 @@ public class MainFrame extends JFrame implements ActionListener{
 	
 	private MapPanel map = new MapPanel();
 	
-    private JButton start = new JButton("开始");
+    private JButton start = new JButton("重新开始");
 	
-	private JButton refresh = new JButton("刷新");
+	private JButton refresh = new JButton("刷新(3次)");
+	
+	private int count = 3;
 	
 	public MainFrame() {
 		this.setTitle("人渣连连看");
@@ -29,6 +31,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		this.setLayout(new BorderLayout());
 		
+		start.addActionListener(this);
 		refresh.addActionListener(this);
 		
 		control.add(start);
@@ -42,6 +45,16 @@ public class MainFrame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == refresh) {
 			map.paint();
+			count--;
+			refresh.setText("刷新(" + count + "次)");
+			if (count == 0) {
+				refresh.setEnabled(false);
+			}
+		} else if (e.getSource() == start) {
+			map.restart();
+			refresh.setEnabled(true);
+			count = 3;
+			refresh.setText("刷新(" + count + "次)");
 		}
 	}
 }

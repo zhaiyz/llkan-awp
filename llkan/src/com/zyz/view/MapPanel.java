@@ -38,7 +38,6 @@ public class MapPanel extends JPanel implements MouseListener{
 	
 	public MapPanel() {
 		this.setSize(width, height);
-//		this.setBackground(Color.RED);
 		
 		 // 设计布局
 		GridLayout gridLayout = new GridLayout();
@@ -55,8 +54,7 @@ public class MapPanel extends JPanel implements MouseListener{
 
 		this.setLayout(gridLayout);
 		
-		Map map = new Map();
-		map.init();
+		Map.init();
 		
 		// 放置按钮
 		for (int row = 0; row < Setting.ROW; row++) {
@@ -157,17 +155,10 @@ public class MapPanel extends JPanel implements MouseListener{
 			dots[pre.x * Setting.COLUMN + pre.y].setBorder(selectedBorder);
 		} else {
 			if (Match.checkLink(Map.map, cur, pre)) {
-				System.out.println("-------------可以连接-------------");
-				System.out.println("pre[" + pre.x + "][" + pre.y + "]=" + Map.map[pre.x][pre.y]);
-				System.out.println("cur[" + cur.x + "][" + cur.y + "]=" + Map.map[cur.x][cur.y]);
 				dots[offset].setVisible(false);
 				dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
 				Map.map[row][col] = 0;
 				Map.map[pre.x][pre.y] = 0;
-			} else {
-				System.out.println("-------------不能连接-------------");
-				System.out.println("pre[" + pre.x + "][" + pre.y + "]=" + Map.map[pre.x][pre.y]);
-				System.out.println("cur[" + cur.x + "][" + cur.y + "]=" + Map.map[cur.x][cur.y]);
 			}
 			dots[pre.x * Setting.COLUMN + pre.y].setBorder(null);
 			pre = null;
@@ -215,6 +206,89 @@ public class MapPanel extends JPanel implements MouseListener{
 		this.removeAll();
 		this.repaint();
 		Map.random(Map.map);
+		for (int row = 0; row < Setting.ROW; row++) {
+
+			for (int col = 0; col < Setting.COLUMN; col++) {
+
+				int index = row * Setting.COLUMN + col;
+                if (Map.map[row][col] != 0) {
+                	String name = "";
+                	Icon icon = null;
+                	switch (Map.map[row][col] - 1) {
+                		case 0:
+                			name = "超哥";
+                			break;
+                		case 1:
+                			name = "飞哥";
+                			break;
+                		case 2:
+                			name = "班长";
+                			break;
+                		case 3:
+                			name = "亚周";
+                			break;
+                		case 4:
+                			name = "小彬";
+                			break;
+                		case 5:
+                			name = "汊港";
+                			break;
+                		case 6:
+                			name = "小罗";
+                			break;
+                		case 7:
+                			name = "玉书";
+                			break;
+                		case 8:
+                			name = "吴政";
+                			break;
+                		case 9:
+                			name = "李聪";
+                			break;
+                		case 10:
+                			name = "少爷";
+                			break;
+                		case 11:
+                			name = "曾哥";
+                			break;
+                		case 12:
+                			name = "学钊";
+                			break;
+                		case 13:
+                			name = "学伟";
+                			break;
+                		case 14:
+                			name = "李皓";
+                			break;
+                		default:
+                			name = "";
+                	}
+                	
+                	add(dots[index] = new JButton());
+					
+				    if ("".equals(name)) {
+				    	dots[index].setVisible(false);
+				    } else {
+				    	icon = new ImageIcon(getClass().getResource("images/" + (Map.map[row][col] - 1) + ".JPG"));
+	        			
+					    dots[index].setIcon(icon);
+					    dots[index].addMouseListener(this);
+					    dots[index].setActionCommand("" + index);
+				    }
+                } else {
+                	add(dots[index] = new JButton());
+                	dots[index].setVisible(false);
+                }
+
+			}
+			pre = null;
+		}
+	}
+	
+	public void restart() {
+		this.removeAll();
+		this.repaint();
+		Map.init();
 		for (int row = 0; row < Setting.ROW; row++) {
 
 			for (int col = 0; col < Setting.COLUMN; col++) {
