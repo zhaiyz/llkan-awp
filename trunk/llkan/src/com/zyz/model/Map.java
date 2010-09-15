@@ -23,33 +23,17 @@ public class Map {
 	/**
 	 * 最大元素数，不能超过map总元素的四分之一
 	 */
-	private int maxElement = 16;
+//	private static int maxElement = 16;
 
 	/**
 	 * 元素个数
 	 */
-	public int elements = 15;
-
-	public int getMaxElement() {
-		return maxElement;
-	}
-
-	public void setMaxElement(int maxElement) {
-		this.maxElement = maxElement;
-	}
-
-	public int getElements() {
-		return elements;
-	}
-
-	public void setElements(int elements) {
-		this.elements = elements;
-	}
+	public static int elements = 15;
 
 	/**
 	 * 初始化一维数组
 	 */
-	public void init() {
+	public static void init() {
 		initArray();
 		random(array);
 		initMap(array);
@@ -58,7 +42,12 @@ public class Map {
 	/**
 	 * 初始化一维数组
 	 */
-	public void initArray() {
+	public static void initArray() {
+		
+		for (int i=0; i<Setting.ROW * Setting.COLUMN; i++) {
+			array[i] = 0;
+		}
+		
 		for (int i = 0; i < elements; i++) {
 
 			array[i * 4] = i + 1;
