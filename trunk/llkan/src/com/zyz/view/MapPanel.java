@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -15,7 +14,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import com.zyz.model.Line;
 import com.zyz.model.Map;
 import com.zyz.model.Match;
 import com.zyz.model.Setting;
