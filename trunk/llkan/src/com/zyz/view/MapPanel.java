@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.zyz.model.Line;
 import com.zyz.model.Map;
 import com.zyz.model.Match;
 import com.zyz.model.Setting;
@@ -154,7 +156,14 @@ public class MapPanel extends JPanel implements MouseListener{
 			pre = cur;
 			dots[pre.x * Setting.COLUMN + pre.y].setBorder(selectedBorder);
 		} else {
-			if (Match.checkLink(Map.map, cur, pre)) {
+			if (Match.checkLink(Map.map, pre, cur)) {
+				System.out.println("----------------");
+				for(int i=0; i<Match.path.size(); i++) {
+					System.out.println("path(" + i + ")");
+					System.out.println("A[" + Match.path.get(i).getA().x + "][" + Match.path.get(i).getA().y + "]");
+					System.out.println("B[" + Match.path.get(i).getB().x + "][" + Match.path.get(i).getB().y + "]");
+					System.out.println("direct=" + Match.path.get(i).getDirect());
+				}
 				dots[offset].setVisible(false);
 				dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
 				Map.map[row][col] = 0;

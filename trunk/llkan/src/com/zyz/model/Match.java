@@ -10,6 +10,11 @@ import java.util.LinkedList;
  * 
  */
 public class Match {
+	
+	/**
+	 * 用来记录连接的路线
+	 */
+	public static LinkedList<Line> path = new LinkedList<Line>();
 
 	/**
 	 * 横线上的判断
@@ -35,6 +40,12 @@ public class Match {
 			if (map[a.x][x] != 0) {
 				return false;
 			}
+		path = new LinkedList<Line>();
+		Line l = new Line();
+		l.setA(a);
+		l.setB(b);
+		l.setDirect(1);
+		path.add(l);
 		return true;
 	}
 
@@ -61,6 +72,12 @@ public class Match {
 		for (int y = y_start + 1; y < y_end; y++)
 			if (map[y][a.y] != 0)
 				return false;
+		path = new LinkedList<Line>();
+		Line l = new Line();
+		l.setA(a);
+		l.setB(b);
+		l.setDirect(0);
+		path.add(l);
 		return true;
 	}
 
@@ -86,7 +103,17 @@ public class Match {
 			isMatch = horizonMatch(map, a, c) && verticalMatch(map, b, c);
 
 			if (isMatch) {
-
+				path = new LinkedList<Line>();
+                Line la = new Line();
+                la.setA(a);
+                la.setB(c);
+                la.setDirect(1);
+                Line lb = new Line();
+                lb.setA(c);
+                lb.setB(b);
+                lb.setDirect(0);
+                path.add(la);
+                path.add(lb);
 				return isMatch;
 
 			}
@@ -97,8 +124,20 @@ public class Match {
 		if (map[d.x][d.y] == 0) {
 
 			isMatch = verticalMatch(map, a, d) && horizonMatch(map, b, d);
-
-			return isMatch;
+            if (isMatch) {
+            	path = new LinkedList<Line>();
+            	Line la = new Line();
+                la.setA(a);
+                la.setB(d);
+                la.setDirect(1);
+                Line lb = new Line();
+                lb.setA(d);
+                lb.setB(b);
+                lb.setDirect(0);
+                path.add(la);
+                path.add(lb);
+			    return isMatch;
+            }
 
 		}
 
@@ -122,11 +161,35 @@ public class Match {
 			if (line.getDirect() == 1) {
 				if (Match.verticalMatch(map, a, line.getA())
 						&& Match.verticalMatch(map, b, line.getB())) {
+					path = new LinkedList<Line>();
+					Line la = new Line();
+	                la.setA(a);
+	                la.setB(line.getA());
+	                la.setDirect(0);
+	                Line lb = new Line();
+	                lb.setA(line.getB());
+	                lb.setB(b);
+	                lb.setDirect(0);
+	                path.add(la);
+	                path.add(line);
+	                path.add(lb);
 					return true;
 				}
 
 			} else if (Match.horizonMatch(map, a, line.getA())
 					&& Match.horizonMatch(map, b, line.getB())) {
+				path = new LinkedList<Line>();
+				Line la = new Line();
+                la.setA(a);
+                la.setB(line.getA());
+                la.setDirect(1);
+                Line lb = new Line();
+                lb.setA(line.getB());
+                lb.setB(b);
+                lb.setDirect(1);
+                path.add(la);
+                path.add(line);
+                path.add(lb);
 				return true;
 			}
 		}
