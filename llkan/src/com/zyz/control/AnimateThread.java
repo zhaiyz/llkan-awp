@@ -24,7 +24,7 @@ public class AnimateThread extends Thread {
 	
 	private int col;
 	
-	private Long time = 500L;
+	private Long time = 50L;
 	public AnimateThread (LinkedList<Line> path, JButton[] dots, Point pre, Point cur, int offset, int row, int col) {
 		this.path = path;
 		this.dots = dots;
@@ -164,6 +164,8 @@ public class AnimateThread extends Thread {
 		dots[pre.x * Setting.COLUMN + pre.y].setEnabled(false);
 		dots[offset].setBorder(null);
 		dots[pre.x * Setting.COLUMN + pre.y].setBorder(null);
+		dots[offset].setIcon(null);
+		dots[pre.x * Setting.COLUMN + pre.y].setIcon(null);
 		dots[offset].setVisible(false);
 		dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
 		Map.map[row][col] = 0;
