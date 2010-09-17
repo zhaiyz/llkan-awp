@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -14,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.zyz.control.AnimateThread;
+import com.zyz.model.Line;
 import com.zyz.model.Map;
 import com.zyz.model.Match;
 import com.zyz.model.Setting;
@@ -47,10 +50,10 @@ public class MapPanel extends JPanel implements MouseListener{
 		gridLayout.setColumns(Setting.COLUMN);
 
 		// 设置纵向间距
-		gridLayout.setHgap(2);
+		gridLayout.setHgap(0);
 
 		// 设置横向间距
-		gridLayout.setVgap(2);
+		gridLayout.setVgap(0);
 
 		this.setLayout(gridLayout);
 		
@@ -63,71 +66,17 @@ public class MapPanel extends JPanel implements MouseListener{
 
 				int index = row * Setting.COLUMN + col;
                 if (Map.map[row][col] != 0) {
-                	String name = "";
                 	Icon icon = null;
-                	switch (Map.map[row][col] - 1) {
-                		case 0:
-                			name = "超哥";
-                			break;
-                		case 1:
-                			name = "飞哥";
-                			break;
-                		case 2:
-                			name = "班长";
-                			break;
-                		case 3:
-                			name = "亚周";
-                			break;
-                		case 4:
-                			name = "小彬";
-                			break;
-                		case 5:
-                			name = "汊港";
-                			break;
-                		case 6:
-                			name = "小罗";
-                			break;
-                		case 7:
-                			name = "玉书";
-                			break;
-                		case 8:
-                			name = "吴政";
-                			break;
-                		case 9:
-                			name = "李聪";
-                			break;
-                		case 10:
-                			name = "少爷";
-                			break;
-                		case 11:
-                			name = "曾哥";
-                			break;
-                		case 12:
-                			name = "学钊";
-                			break;
-                		case 13:
-                			name = "学伟";
-                			break;
-                		case 14:
-                			name = "李皓";
-                			break;
-                		default:
-                			name = "";
-                	}
-                	
                 	add(dots[index] = new JButton());
-					
-				    if ("".equals(name)) {
-				    	dots[index].setVisible(false);
-				    } else {
-				    	icon = new ImageIcon(getClass().getResource("images/" + (Map.map[row][col] - 1) + ".JPG"));
-	        			
-					    dots[index].setIcon(icon);
-					    dots[index].addMouseListener(this);
-					    dots[index].setActionCommand("" + index);
-				    }
+				    
+				    icon = new ImageIcon(getClass().getResource("images/" + (Map.map[row][col] - 1) + ".JPG"));
+
+					dots[index].setIcon(icon);
+					dots[index].addMouseListener(this);
+					dots[index].setActionCommand("" + index);
                 } else {
                 	add(dots[index] = new JButton());
+                	dots[index].setEnabled(false);
                 	dots[index].setVisible(false);
                 }
 
@@ -154,21 +103,17 @@ public class MapPanel extends JPanel implements MouseListener{
 			pre = cur;
 			dots[pre.x * Setting.COLUMN + pre.y].setBorder(selectedBorder);
 		} else {
-			if (Match.checkLink(Map.map, pre, cur)) {
-				System.out.println("----------------");
-				for(int i=0; i<Match.path.size(); i++) {
-					System.out.println("path(" + i + ")");
-					System.out.println("A[" + Match.path.get(i).getA().x + "][" + Match.path.get(i).getA().y + "]");
-					System.out.println("B[" + Match.path.get(i).getB().x + "][" + Match.path.get(i).getB().y + "]");
-					System.out.println("direct=" + Match.path.get(i).getDirect());
-				}
-				dots[offset].setVisible(false);
-				dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
-				Map.map[row][col] = 0;
-				Map.map[pre.x][pre.y] = 0;
-			}
 			dots[pre.x * Setting.COLUMN + pre.y].setBorder(null);
+			Point p = new Point(pre.x, pre.y);
 			pre = null;
+			if (Match.checkLink(Map.map, p, cur)) {
+				dots[p.x * Setting.COLUMN + p.y].removeMouseListener(this);
+				dots[offset].removeMouseListener(this);
+				LinkedList<Line> path = new LinkedList<Line>();
+				path = Match.path;
+				AnimateThread animate = new AnimateThread(path, dots, p, cur, offset, row, col);
+				animate.start();
+			}
 		}
 	}
 
