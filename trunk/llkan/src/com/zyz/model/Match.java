@@ -129,11 +129,11 @@ public class Match {
             	Line la = new Line();
                 la.setA(a);
                 la.setB(d);
-                la.setDirect(1);
+                la.setDirect(0);
                 Line lb = new Line();
                 lb.setA(d);
                 lb.setB(b);
-                lb.setDirect(0);
+                lb.setDirect(1);
                 path.add(la);
                 path.add(lb);
 			    return isMatch;
