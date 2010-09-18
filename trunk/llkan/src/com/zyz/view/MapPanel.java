@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import com.zyz.control.AnimateThread;
+import com.zyz.control.SoundThread;
 import com.zyz.model.Line;
 import com.zyz.model.Map;
 import com.zyz.model.Match;
@@ -108,10 +109,15 @@ public class MapPanel extends JPanel implements MouseListener{
 			if (Match.checkLink(Map.map, p, cur)) {
 				dots[p.x * Setting.COLUMN + p.y].removeMouseListener(this);
 				dots[offset].removeMouseListener(this);
+				SoundThread sound = new SoundThread(0);
+				sound.start();
 				LinkedList<Line> path = new LinkedList<Line>();
 				path = Match.path;
 				AnimateThread animate = new AnimateThread(path, dots, p, cur, offset, row, col);
 				animate.start();
+			} else {
+				SoundThread sound = new SoundThread(1);
+				sound.start();
 			}
 		}
 	}
@@ -137,14 +143,10 @@ public class MapPanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	protected void paintComponent(Graphics g) {
