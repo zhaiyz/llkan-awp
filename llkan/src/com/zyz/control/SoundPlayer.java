@@ -23,7 +23,6 @@ public class SoundPlayer {
 	// 一次性播放 开始
 	public void start() {
 		if (as == null) {
-			System.out.println("AudioStream object is not created!");
 			return;
 		} else {
 			AudioPlayer.player.start(as);
@@ -33,7 +32,6 @@ public class SoundPlayer {
 	// 一次性播放 停止
 	public void stop() {
 		if (as == null) {
-			System.out.println("AudioStream object is not created!");
 			return;
 		} else {
 			AudioPlayer.player.stop(as);

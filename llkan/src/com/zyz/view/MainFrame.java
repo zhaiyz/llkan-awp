@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -21,13 +23,15 @@ public class MainFrame extends JFrame implements ActionListener{
 	
     private JButton start = new JButton("重新开始");
 	
-	private JButton refresh = new JButton("刷新(3次)");
+	public static JButton refresh = new JButton("刷新(3次)");
 	
 	private int count = 3;
 	
 	public MainFrame() {
 		this.setTitle("人渣连连看");
 		this.setSize(width, height);
+		
+		this.setIconImage(new ImageIcon(getClass().getResource("images/logo.gif")).getImage());
 		
 		this.setLayout(new BorderLayout());
 		
