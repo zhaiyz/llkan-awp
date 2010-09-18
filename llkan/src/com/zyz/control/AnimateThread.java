@@ -44,7 +44,7 @@ public class AnimateThread extends Thread {
 			Point a = path.get(i).getA();
 			Point b = path.get(i).getB();
 			int direct = path.get(i).getDirect();
-			ImageIcon icon = new ImageIcon(getClass().getResource("../view/images/dots.gif"));
+			ImageIcon icon = new ImageIcon(getClass().getResource("sound/dots.gif"));
 			try {
 				if (direct == 1) {
 					// 如果是横线，即两个点的X相等，那就 要看看是往左走还是往右走了
