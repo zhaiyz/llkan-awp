@@ -76,7 +76,6 @@ public class MapPanel extends JPanel implements MouseListener{
 					dots[index].setActionCommand("" + index);
                 } else {
                 	add(dots[index] = new JButton());
-                	dots[index].setEnabled(false);
                 	dots[index].setVisible(false);
                 }
 

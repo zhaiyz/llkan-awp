@@ -1,8 +1,10 @@
 package com.zyz.control;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import com.zyz.model.Line;
@@ -40,6 +42,7 @@ public class AnimateThread extends Thread {
 			Point a = path.get(i).getA();
 			Point b = path.get(i).getB();
 			int direct = path.get(i).getDirect();
+			ImageIcon icon = new ImageIcon(getClass().getResource("../view/images/dots.gif"));
 			try {
 				if (direct == 1) {
 					// 如果是横线，即两个点的X相等，那就 要看看是往左走还是往右走了
@@ -51,7 +54,11 @@ public class AnimateThread extends Thread {
 								// 如果说，当前路径上的点为要连接的点，就不作动作
 							} else {
 								int index = a.x * Setting.COLUMN + j;
-								dots[index].setIcon(null);
+								dots[index].setOpaque(false);
+								dots[index].setBackground(Color.blue);
+								dots[index].setBorder(null);
+								dots[index].setEnabled(true);
+								dots[index].setIcon(icon);
 								dots[index].setVisible(true);
 								AnimateThread.sleep(time);
 							}
@@ -64,7 +71,11 @@ public class AnimateThread extends Thread {
 								// 如果说，当前路径上的点为要连接的点，就不作动作
 							} else {
 								int index = a.x * Setting.COLUMN + j;
-								dots[index].setIcon(null);
+								dots[index].setOpaque(false);
+								dots[index].setBackground(Color.blue);
+								dots[index].setBorder(null);
+								dots[index].setEnabled(true);
+								dots[index].setIcon(icon);
 								dots[index].setVisible(true);
 								AnimateThread.sleep(time);
 							}
@@ -80,7 +91,11 @@ public class AnimateThread extends Thread {
 								// 如果说，当前路径上的点为要连接的点，就不作动作
 							} else {
 								int index = j * Setting.COLUMN + a.y;
-								dots[index].setIcon(null);
+								dots[index].setOpaque(false);
+								dots[index].setBackground(Color.blue);
+								dots[index].setBorder(null);
+								dots[index].setEnabled(true);
+								dots[index].setIcon(icon);
 								dots[index].setVisible(true);
 								AnimateThread.sleep(time);
 							}
@@ -93,7 +108,11 @@ public class AnimateThread extends Thread {
 								// 如果说，当前路径上的点为要连接的点，就不作动作
 							} else {
 								int index = j * Setting.COLUMN + a.y;
-								dots[index].setIcon(null);
+								dots[index].setOpaque(false);
+								dots[index].setBackground(Color.blue);
+								dots[index].setBorder(null);
+								dots[index].setEnabled(true);
+								dots[index].setIcon(icon);
 								dots[index].setVisible(true);
 								AnimateThread.sleep(time);
 							}
@@ -160,8 +179,6 @@ public class AnimateThread extends Thread {
 				}
 			}
 		}
-		dots[offset].setEnabled(false);
-		dots[pre.x * Setting.COLUMN + pre.y].setEnabled(false);
 		dots[offset].setBorder(null);
 		dots[pre.x * Setting.COLUMN + pre.y].setBorder(null);
 		dots[offset].setIcon(null);
