@@ -6,10 +6,12 @@ import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import com.zyz.model.Line;
 import com.zyz.model.Map;
 import com.zyz.model.Setting;
+import com.zyz.view.MainFrame;
 
 public class AnimateThread extends Thread {
 	private LinkedList<Line> path;
@@ -187,5 +189,20 @@ public class AnimateThread extends Thread {
 		dots[pre.x * Setting.COLUMN + pre.y].setVisible(false);
 		Map.map[row][col] = 0;
 		Map.map[pre.x][pre.y] = 0;
+		checkWin();
+	}
+	
+	public void checkWin() {
+		for (int row = 0; row < Setting.ROW; row++) {
+			for (int col = 0; col < Setting.COLUMN; col++) {
+                if (Map.map[row][col] != 0) {
+                	return;
+                }
+			}
+	    }
+		
+		// 能运行到这，也就是说图片已经全都消除了，成功了
+		MainFrame.refresh.setEnabled(false);
+		JOptionPane.showMessageDialog(null, "你成功了!", "消息", JOptionPane.INFORMATION_MESSAGE, null);
 	}
 }
